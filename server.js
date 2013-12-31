@@ -16,7 +16,7 @@ import printStatement from "./src/utils/printStatement.js";
 
 dbConnect()
 
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 4000, () => {
   printStatement(`Server is Running on: ${process.env.SERVER_URL}`);
 });
 

@@ -24,27 +24,26 @@ const createFakeUsers = async (count) => {
   
   
   // Function to create fake time slots for consultants
-  const createFakeTimeSlots = async (time) => {
+  const createFakeTimeSlots = async (slotsPerDay) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const doctors = await User.find({ role: 'consultant' }); // Assuming 'User' model contains doctors
-  
+    
     for (const doctor of doctors) {
-      const timeSlots = [];
-  
       for (const day of days) {
-        for (let i = 0; i < time; i++) {
-          const startTime = faker.date.future();
-          const endTime = faker.date.future();
-  
+        const timeSlots = [];
+        for (let i = 0; i < slotsPerDay; i++) {
+          const startTime = generateAbsoluteTime();
+          const endTime = generateAbsoluteTime(); // You can adjust this function based on your logic for end time
+    
           const slot = {
             startTime,
             endTime,
             isAvailable: true,
           };
-  
+    
           timeSlots.push(slot);
         }
-  
+        
         const newTimeSlot = new TimeSlot({
           doctor: doctor._id,
           timeSlots: [
@@ -60,12 +59,17 @@ const createFakeUsers = async (count) => {
     }
   };
   
+  const generateAbsoluteTime = () => {
+    const hour = Math.floor(Math.random() * 12) + 1; // Generate random hour (1-12)
+    const minute = Math.floor(Math.random() * 60); // Generate random minute (0-59)
+    const period = Math.random() < 0.5 ? 'AM' : 'PM'; // Randomly choose AM or PM
+  
+    return `${hour}:${minute < 10 ? '0' + minute : minute} ${period}`;
+  };
+  
+  
   // Usage: Call the function to generate fake time slots
-  createFakeTimeSlots().then(() => {
-    console.log('Fake time slots generated.');
-  }).catch((error) => {
-    console.error('Error generating fake time slots:', error);
-  });
+  
   
   
   // Rest of your code for creating fake bookings...
@@ -95,14 +99,9 @@ const createFakeUsers = async (count) => {
   };
   // Usage: Call the functions to create fake data
   export const createFakeData = async () => {
-    //   await createFakeUsers(200); // Generate 100 patients and 100 consultants
-    await createFakeTimeSlots(3); // Generate 100 fake time slots for consultants
-    // await createFakeBookings(100);
+      // await createFakeUsers(20); // Generate 100 patients and 100 consultants
+    // await createFakeTimeSlots(3); // Generate 100 fake time slots for consultants
+    // await createFakeBookings(5);
   };
   
-  // Call the function to create fake data
-  createFakeData().then(() => {
-    console.log('Fake data generation completed.');
-  }).catch((error) => {
-    console.error('Error generating fake data:', error);
-  });
+ 

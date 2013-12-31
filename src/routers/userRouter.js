@@ -20,18 +20,18 @@ import { isAuthenticate } from "../middlewares/authMiddleware.js";
 const userRouter = express.Router();
 
 // local authentication setup
-userRouter.route("/register").post(registerValidation, register);
-userRouter.route("/login").post(loginValidation, login);
-userRouter.route("/logout").get(isAuthenticate, logout);
-userRouter.route("/me").get(isAuthenticate, getUserDetails);
+userRouter.route("/create-account").post(registerValidation, register);
+userRouter.route("/signin").post(loginValidation, login);
+userRouter.route("/signout").get(isAuthenticate, logout);
+userRouter.route("/my-profile").get(isAuthenticate, getUserDetails);
 userRouter
-  .route("/password/update")
+  .route("/update-password")
   .put(isAuthenticate, updatePasswordValidation, updatePassword);
 userRouter
-  .route("/password/reset")
+  .route("/reset-password-request")
   .post(forgetPasswordEmailValidation, forgotPassword);
 userRouter
-  .route("/password/reset/:token")
+  .route("/reset-password/:token")
   .post(resetPasswordValidation, resetPassword);
 
 export default userRouter;

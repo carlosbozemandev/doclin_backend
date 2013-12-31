@@ -4,6 +4,8 @@ import {
     joiResetPasswordSchema,
     joiSignupSchema,
     joiUpdatePasswordSchema,
+    timeSlotSchema,
+    updateTimeSlotSchema,
   } from "../utils/joiSchema.js";
   import validationResponse from "../utils/validationResponse.js";
   
@@ -38,4 +40,32 @@ import {
   export const updatePasswordValidation = (req, res, next) => {
     const { error } = joiUpdatePasswordSchema.validate(req.body);
     validationResponse(error, next);
+  };
+  export const createTimeSlotValidation = (req, res, next) => {
+    const { error } = timeSlotSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ success: false, error: error.details.map((detail) => detail.message) });
+    }
+    next();
+  };
+  export const updateTimeSlotValidation = (req, res, next) => {
+    const { error } = updateTimeSlotSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ success: false, error: error.details.map((detail) => detail.message) });
+    }
+    next();
+  };
+  export const updateBookingValidation = (req, res, next) => {
+    const { error } = updateBookingSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ success: false, error: error.details.map((detail) => detail.message) });
+    }
+    next();
+  };
+  export const createBookingValidation = (req, res, next) => {
+    const { error } = createBookingSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ success: false, error: error.details.map((detail) => detail.message) });
+    }
+    next();
   };

@@ -30,3 +30,27 @@ export const joiUpdatePasswordSchema = Joi.object({
     newPassword: Joi.string().min(8).required(),
     confirmNewPassword: Joi.ref("newPassword"),
   });
+
+  export const timeSlotSchema = Joi.object({
+    doctor: Joi.string().required(),
+    day: Joi.string().valid('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday').required(),
+    startTime: Joi.date().iso().required(),
+    endTime: Joi.date().iso().greater(Joi.ref('startTime')).required(),
+    isAvailable: Joi.boolean().default(true),
+  });
+
+  export const updateTimeSlotSchema = Joi.object({
+    doctor: Joi.string(),
+    day: Joi.string().valid('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+    startTime: Joi.date().iso(),
+    endTime: Joi.date().iso().greater(Joi.ref('startTime')),
+    isAvailable: Joi.boolean(),
+  });
+  export const createBookingSchema = Joi.object({
+    timeSlot: Joi.string().required(), // Assuming timeSlot is a string field representing the time slot ID
+    isConfirmed: Joi.boolean().default(false), // Assuming isConfirmed is an optional boolean field
+  });
+  export const updateBookingSchema = Joi.object({
+    timeSlot: Joi.string(), // Assuming timeSlot is a string field representing the time slot ID
+    isConfirmed: Joi.boolean(), // Assuming isConfirmed is an optional boolean field
+  });

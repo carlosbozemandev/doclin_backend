@@ -11,7 +11,6 @@ process.on("uncaughtException", (error) => {
 
 import app from "./app.js";
 import dbConnect from "./src/utils/dbConnect.js";
-
 import printStatement from "./src/utils/printStatement.js";
 
 

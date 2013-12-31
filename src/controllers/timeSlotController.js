@@ -23,6 +23,22 @@ export const getAllTimeSlots = catchAsyncError(async (req, res, next) => {
     data: timeSlots,
   });
 });
+export const getTimeSlotsByConsultantId = catchAsyncError(async (req, res, next) => {
+  const consultantId = req.params.id; // Assuming the consultant ID is in req.params.id
+
+  // Find all time slots associated with the given consultant ID
+  const timeSlots = await TimeSlot.find({ doctor: consultantId });
+
+  if (!timeSlots || timeSlots.length === 0) {
+    return next(new ErrorHandler(404, "Time slots not found for the given consultant ID"));
+  }
+
+  res.status(200).json({
+    success: true,
+    data: timeSlots,
+  });
+});
+
 export const getTimeSlotById = catchAsyncError(async (req, res, next) => {
   const timeSlot = await TimeSlot.findById(req.params.id);
 
@@ -35,6 +51,7 @@ export const getTimeSlotById = catchAsyncError(async (req, res, next) => {
     data: timeSlot,
   });
 });
+
 export const updateTimeSlot = catchAsyncError(async (req, res, next) => {
   let timeSlot = await TimeSlot.findById(req.params.id);
 

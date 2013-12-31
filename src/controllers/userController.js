@@ -119,3 +119,17 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+export const getConsultants = catchAsyncError(async (req, res, next) => {
+  const consultants = await User.find({ role: 'consultant' });
+
+  if (!consultants || consultants.length === 0) {
+    return next(new ErrorHandler(404, 'No consultants found'));
+  }
+
+  res.status(200).json({
+    success: true,
+    data: consultants,
+  });
+});
+
+

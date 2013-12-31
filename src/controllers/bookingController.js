@@ -4,12 +4,11 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 
 export const createBooking = catchAsyncError(async (req, res) => {
-  const { timeSlot, isConfirmed } = req.body;
+  const { timeSlot } = req.body;
   const { user } = req; // Assuming the authenticated user details are in req.user or req.userData
   const newBooking = await Booking.create({
     patient: user._id,
     timeSlot,
-    isConfirmed,
   });
   res.status(201).json({ success: true, data: newBooking });
 });

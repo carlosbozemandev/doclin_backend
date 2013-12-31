@@ -12,7 +12,7 @@ import { createBookingValidation, updateBookingValidation } from '../middlewares
 
 const bookingRouter = express.Router();
 
-bookingRouter.route('/bookings').post(isAuthenticate,createBookingValidation , createBooking) // Create a new booking
+bookingRouter.route('/bookings').post(isAuthenticate, createBooking) // Create a new booking
 bookingRouter.route('/bookings').get(getAllBookings); // Get all bookings
 bookingRouter.route('/bookings/:id').get(getBookingById) // Get a specific booking by ID
 bookingRouter.route('/bookings/:id').put(isAuthenticate,updateBookingValidation, updateBooking) // Update a booking

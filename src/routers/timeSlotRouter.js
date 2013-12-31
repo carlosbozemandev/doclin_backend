@@ -5,6 +5,7 @@ import {
   getTimeSlotById,
   updateTimeSlot,
   deleteTimeSlot,
+  getTimeSlotsByConsultantId,
 } from '../controllers/timeSlotController.js';
 
 import { isAuthenticate } from '../middlewares/authMiddleware.js';
@@ -17,5 +18,6 @@ timeSlotRouter.route('/time-slots').get(getAllTimeSlots); // Get all time slots
 timeSlotRouter.route('/time-slots/:id').get(getTimeSlotById) // Get a specific time slot by ID
 timeSlotRouter.route('/time-slots').put(isAuthenticate,updateTimeSlotValidation, updateTimeSlot) // Update a time slot
 timeSlotRouter.route('/time-slots').delete(isAuthenticate, deleteTimeSlot); // Delete a time slot
+timeSlotRouter.route('/time-slots/consultant/:id').get(getTimeSlotsByConsultantId); // Delete a time slot
 
 export default timeSlotRouter;

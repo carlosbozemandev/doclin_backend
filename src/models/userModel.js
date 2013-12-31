@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["patient", "admin", "doctor"],
+      enum: ["patient", "admin", "consultant"],
       default: "patient",
     },
     restPasswordToken: {

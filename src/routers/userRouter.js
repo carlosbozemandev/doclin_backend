@@ -1,6 +1,7 @@
 import express from "express";
 import {
   forgotPassword,
+  getConsultants,
   getUserDetails,
   login,
   logout,
@@ -23,6 +24,7 @@ const userRouter = express.Router();
 userRouter.route("/create-account").post(registerValidation, register);
 userRouter.route("/signin").post(loginValidation, login);
 userRouter.route("/signout").get(isAuthenticate, logout);
+userRouter.route("/consultants").get(isAuthenticate, getConsultants);
 userRouter.route("/my-profile").get(isAuthenticate, getUserDetails);
 userRouter
   .route("/update-password")

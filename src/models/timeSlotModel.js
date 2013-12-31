@@ -4,27 +4,23 @@ const timeSlotSchema = new mongoose.Schema(
   {
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Assuming 'User' model contains doctor details
+      ref: 'User',
       required: true,
+      index: true,
     },
-    day: {
-      type: String,
-      enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      required: true,
-    },
-    startTime: {
-      type: Date,
-      required: true,
-    },
-    endTime: {
-      type: Date,
-      required: true,
-    },
-    isAvailable: {
-      type: Boolean,
-      default: true,
-    },
-    // Add any other properties related to time slots
+    timeSlots: [
+      {
+        day: { type: String, required: true },
+        slots: [
+          {
+            startTime: { type: Date, required: true },
+            endTime: { type: Date, required: true },
+            isAvailable: { type: Boolean, default: true },
+          },
+        ],
+      },
+    ],
+    // Other properties related to time slots
   },
   { timestamps: true }
 );

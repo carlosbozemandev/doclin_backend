@@ -8,8 +8,7 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
     timeSlot: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'TimeSlot',
+      type: String,
       required: true,
     },
     isConfirmed: {

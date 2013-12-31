@@ -11,10 +11,14 @@ process.on("uncaughtException", (error) => {
 
 import app from "./app.js";
 import dbConnect from "./src/utils/dbConnect.js";
+
 import printStatement from "./src/utils/printStatement.js";
 
 
 dbConnect()
+
+
+
 
 const server = app.listen(process.env.PORT || 4000, () => {
   printStatement(`Server is Running on: ${process.env.SERVER_URL}`);

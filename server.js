@@ -23,7 +23,9 @@ const server = app.listen(process.env.PORT || 4000, () => {
   printStatement(`Server is Running on: ${process.env.SERVER_URL}`);
 });
 
-
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
 
 
 

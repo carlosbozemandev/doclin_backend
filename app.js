@@ -17,9 +17,7 @@ const app = express();
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
 
-  app.get("/", (req, res) => {
-    res.send("Server is running");
-  });
+  
 
 app.use(`/api/v1`, userRouter);
 app.use(`/api/v1`, timeSlotRouter);

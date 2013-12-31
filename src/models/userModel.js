@@ -21,17 +21,13 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["patient", "admin", "doctor"],
-      default: "user",
+      default: "patient",
     },
     restPasswordToken: {
       type: String,
     },
     resetPasswordExpire: {
       type: Date,
-    },
-    verified: {
-      type: Boolean,
-      default: false,
     },
     token: String,
     tokenExpire: Date,

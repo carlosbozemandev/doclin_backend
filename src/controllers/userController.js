@@ -1,4 +1,3 @@
-
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncError from "./../middlewares/catchAsyncError.js";
 import User from "./../models/userModel.js";
@@ -44,6 +43,7 @@ export const logout = catchAsyncError(async (req, res, next) => {
       message: "logout successfully",
     });
 });
+
 export const getUserDetails = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   res.status(200).json({
@@ -52,24 +52,24 @@ export const getUserDetails = catchAsyncError(async (req, res, next) => {
   });
 });
 export const updatePassword = catchAsyncError(async (req, res, next) => {
-    const user = await User.findById(req.user.id).select("+password");
-  
-    if (!user) {
-      return next(new ErrorHandler(404, "User not found"));
-    }
-  
-    // Check if current password matches
-    const isMatched = await user.comparePassword(req.body.currentPassword);
-    if (!isMatched) {
-      return next(new ErrorHandler(401, "Incorrect current password"));
-    }
-  
-    // Set new password and save the user
-    user.password = req.body.newPassword;
-    await user.save();
-  
-    sendToken(200, user, res);
-  });
+  const user = await User.findById(req.user.id).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler(404, "User not found"));
+  }
+
+  // Check if current password matches
+  const isMatched = await user.comparePassword(req.body.currentPassword);
+  if (!isMatched) {
+    return next(new ErrorHandler(401, "Incorrect current password"));
+  }
+
+  // Set new password and save the user
+  user.password = req.body.newPassword;
+  await user.save();
+
+  sendToken(200, user, res);
+});
 export const resetPassword = catchAsyncError(async (req, res, next) => {
   const verifiedToken = crypto
     .createHash("sha256")
@@ -94,30 +94,29 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
   sendToken(201, user, res);
 });
 export const forgotPassword = catchAsyncError(async (req, res, next) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return next(new ErrorHandler(404, "user not found"));
-    }
-    const restToken = await user.getToken();
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new ErrorHandler(404, "user not found"));
+  }
+  const restToken = await user.getToken();
+  await user.save({ validateBeforeSave: false });
+  const resetPasswordUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${restToken}`;
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "password recovery",
+      html: forgetPasswordEmailMessage(resetPasswordUrl),
+    });
+    res.status(200).json({
+      success: true,
+      message: "email sent successfully",
+    });
+  } catch (error) {
+    user.token = undefined;
+    user.tokenExpire = undefined;
     await user.save({ validateBeforeSave: false });
-    const resetPasswordUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/password/reset/${restToken}`;
-    try {
-      await sendEmail({
-        email: user.email,
-        subject: "password recovery",
-        html: forgetPasswordEmailMessage(resetPasswordUrl),
-      });
-      res.status(200).json({
-        success: true,
-        message: "email sent successfully",
-      });
-    } catch (error) {
-      user.token = undefined;
-      user.tokenExpire = undefined;
-      await user.save({ validateBeforeSave: false });
-      return next(new ErrorHandler(error.message, 500));
-    }
-  });
-  
+    return next(new ErrorHandler(error.message, 500));
+  }
+});

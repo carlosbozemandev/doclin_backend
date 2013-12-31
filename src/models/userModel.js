@@ -18,11 +18,9 @@ const userSchema = new mongoose.Schema(
       minLength: 8,
       select: false,
     },
-    avatar: {
-      type: String,
-    },
     role: {
       type: String,
+      enum: ["user", "admin", "doctor"],
       default: "user",
     },
     restPasswordToken: {

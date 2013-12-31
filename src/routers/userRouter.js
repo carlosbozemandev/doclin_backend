@@ -26,7 +26,7 @@ userRouter.route("/logout").get(isAuthenticate, logout);
 userRouter.route("/me").get(isAuthenticate, getUserDetails);
 userRouter
   .route("/password/update")
-  .get(isAuthenticate, updatePasswordValidation, updatePassword);
+  .put(isAuthenticate, updatePasswordValidation, updatePassword);
 userRouter
   .route("/password/reset")
   .post(forgetPasswordEmailValidation, forgotPassword);

@@ -3,7 +3,7 @@ import TimeSlot from "../models/timeSlotModel.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncError from "./../middlewares/catchAsyncError.js";
 
-// Create a Time Slot
+
 export const createTimeSlot = catchAsyncError(async (req, res, next) => {
   const { doctor, day, startTime, endTime, isAvailable } = req.body;
 
@@ -14,8 +14,6 @@ export const createTimeSlot = catchAsyncError(async (req, res, next) => {
     data: timeSlot,
   });
 });
-
-// Get All Time Slots
 export const getAllTimeSlots = catchAsyncError(async (req, res, next) => {
   const timeSlots = await TimeSlot.find();
 
@@ -25,8 +23,6 @@ export const getAllTimeSlots = catchAsyncError(async (req, res, next) => {
     data: timeSlots,
   });
 });
-
-// Get Single Time Slot by ID
 export const getTimeSlotById = catchAsyncError(async (req, res, next) => {
   const timeSlot = await TimeSlot.findById(req.params.id);
 
@@ -39,8 +35,6 @@ export const getTimeSlotById = catchAsyncError(async (req, res, next) => {
     data: timeSlot,
   });
 });
-
-// Update a Time Slot
 export const updateTimeSlot = catchAsyncError(async (req, res, next) => {
   let timeSlot = await TimeSlot.findById(req.params.id);
 
@@ -58,8 +52,6 @@ export const updateTimeSlot = catchAsyncError(async (req, res, next) => {
     data: timeSlot,
   });
 });
-
-// Delete a Time Slot
 export const deleteTimeSlot = catchAsyncError(async (req, res, next) => {
   const timeSlot = await TimeSlot.findById(req.params.id);
 

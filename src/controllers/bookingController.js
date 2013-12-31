@@ -46,3 +46,18 @@ export const deleteBooking = catchAsyncError(async (req, res) => {
   }
   res.status(200).json({ success: true, data: {} });
 });
+export const getBookingsByPatientId = catchAsyncError(async (req, res) => {
+
+    const { userId } = req.user; // Assuming the authenticated user ID is available in req.user
+
+    // Find all bookings associated with the given patient ID
+    const allBookings = await Booking.find({ patient: userId }).populate('timeSlot');
+    if (!allBookings) {
+      return next(new ErrorHandler(404, "Booking not found"));
+    }
+    // Separate confirmed and pending bookings
+    const confirmedBookings = allBookings.filter(booking => booking.isConfirmed === true);
+   
+    res.status(200).json({ success: true, confirmedBookings });
+  
+});

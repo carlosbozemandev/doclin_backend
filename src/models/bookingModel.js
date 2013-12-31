@@ -16,6 +16,9 @@ const bookingSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    meetingLink: {
+      type: String, // Assuming the Google Meet link is a string
+    },
     // Add any other properties related to bookings
   },
   { timestamps: true }

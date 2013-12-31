@@ -13,7 +13,6 @@ export const createBooking = catchAsyncError(async (req, res) => {
   });
   res.status(201).json({ success: true, data: newBooking });
 });
-
 export const getAllBookings = catchAsyncError(async (req, res) => {
   const bookings = await Booking.find().populate("timeSlot");
   res
